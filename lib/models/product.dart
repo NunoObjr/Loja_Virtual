@@ -115,7 +115,6 @@ class Product extends ChangeNotifier {
     } else {
       await firestoreRef.update(data);
     }
-
     final List<String> updateImages = [];
 
     for (final newImage in newImages) {
@@ -124,9 +123,12 @@ class Product extends ChangeNotifier {
       } else {
         final UploadTask task =
             storageRef.child(Uuid().v1()).putFile(newImage as File);
-        final TaskSnapshot snapshot = task.snapshot;
-        final String url = await snapshot.ref.getDownloadURL();
-        updateImages.add(url);
+        try {
+          final String url = await (await task).ref.getDownloadURL();
+          updateImages.add(url);
+        } catch (e) {
+          debugPrint('Falha ao upar $e');
+        }
       }
     }
     for (final image in images) {
