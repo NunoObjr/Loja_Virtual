@@ -33,7 +33,7 @@ Aplicativo de **e-commerce em Flutter** com **Firebase**: catálogo de produtos,
 
 **Triggers do Firestore.** `onNewOrder` e `onOrderStatusChanged` reagem à criação e à mudança de status dos pedidos para notificar o cliente.
 
-**Endereço por CEP.** `CepAbertoService` consulta a API CEP Aberto para preencher o endereço e calcula entrega com `geolocator`.
+**Endereço por CEP e frete por distância.** `CepAbertoService` consulta a API CEP Aberto para preencher o endereço; em seguida o `CartManager` calcula o frete com `Geolocator.distanceBetween` (distância entre a loja e o endereço), somando um valor base e um valor por km ao total do pedido.
 
 **Edição de conteúdo em tempo real.** A home e o catálogo são lidos do Firestore, então o administrador altera o app sem publicar nova versão.
 
