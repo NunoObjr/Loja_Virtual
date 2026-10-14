@@ -57,11 +57,15 @@ functions/src/index.ts # Cloud Functions (cartão e pedidos)
 ## Como executar
 
 1. Crie um projeto no [Firebase](https://console.firebase.google.com/) e configure o app Android/iOS (`google-services.json` / `GoogleService-Info.plist`).
-2. Configure as credenciais da Cielo nas Functions:
+2. Copie `.env.example` para `.env` (ignorado pelo Git) e preencha o token da API CEP Aberto:
+   ```
+   CEPABERTO_TOKEN=seu_token
+   ```
+3. Configure as credenciais da Cielo nas Functions:
    ```bash
    firebase functions:config:set cielo.merchantid="..." cielo.merchantkey="..."
    ```
-3. Implante as funções e rode o app:
+4. Implante as funções e rode o app:
    ```bash
    cd functions && npm install && cd ..
    firebase deploy --only functions
@@ -71,4 +75,4 @@ functions/src/index.ts # Cloud Functions (cartão e pedidos)
 
 As funções estão em modo **sandbox** da Cielo; ajuste em `functions/src/index.ts` para produção.
 
-> **Segurança:** o token da API CEP Aberto está escrito em `lib/services/cepaberto_service.dart`. Revogue-o, gere outro e leia-o de variável de build (`--dart-define`) ou de uma Function.
+> **Segurança:** o token do CEP Aberto agora é lido do `.env` (via `flutter_dotenv`), mas o valor antigo continua no histórico do Git: **revogue-o e gere outro**. O `google-services.json` contém a chave web do Firebase, que é um identificador público por design; proteja o projeto com as regras do Firestore/Storage e restrinja a chave no console do Google Cloud.

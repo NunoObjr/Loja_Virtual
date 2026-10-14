@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 import 'package:loja_virtual/models/cepaberto_address.dart';
-
-const token = '6e6c2461fbc1025d1b3dc1274e816727';
 
 class CepAbertoService {
   Future<CepAbertoAddress> getAddressFromCep(String cep) async {
@@ -12,7 +11,7 @@ class CepAbertoService {
 
     final Dio dio = Dio();
 
-    dio.options.headers[HttpHeaders.authorizationHeader] = 'Token token=$token';
+    dio.options.headers[HttpHeaders.authorizationHeader] = 'Token token=${dotenv.env['CEPABERTO_TOKEN']}';
 
     try {
       final response = await dio.get<Map<String, dynamic>>(endpoint);
